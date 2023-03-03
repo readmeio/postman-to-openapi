@@ -101,6 +101,7 @@ describe('Library specs', function () {
 
   const TEST_VERSIONS = ['v2', 'v21'];
 
+  // eslint-disable-next-line mocha/no-setup-in-describe
   TEST_VERSIONS.forEach(function (version) {
     describe(`Postman Collection ${version}`, function () {
       const COLLECTION_BASIC = `./test/resources/input/${version}/PostmantoOpenAPI.json`;
@@ -338,7 +339,7 @@ describe('Library specs', function () {
         equal(result, EXPECTED_EXTERNAL_DOCS);
       });
 
-      it('should parse external docs info from variables', async function () {
+      it('should parse external docs info from variables (with externalDocs url + description)', async function () {
         const result = await postmanToOpenApi(COLLECTION_EXTERNAL_DOCS, OUTPUT_PATH, {
           externalDocs: {
             url: 'https://docs2.example.com',
@@ -348,7 +349,7 @@ describe('Library specs', function () {
         equal(result, EXPECTED_EXTERNAL_DOCS_OPTS);
       });
 
-      it('should parse external docs info from variables', async function () {
+      it('should parse external docs info from variables (with externalDocs url)', async function () {
         const result = await postmanToOpenApi(COLLECTION_BASIC, OUTPUT_PATH, {
           externalDocs: {
             url: 'https://docs2.example.com',
