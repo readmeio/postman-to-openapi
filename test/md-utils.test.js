@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { parseMdTable } = require('../lib/md-utils');
+const { parseMdTable } = require('../src/md-utils');
 
 describe('MD table to JSON specs', function () {
   const MD_WITH_ADDITIONS =

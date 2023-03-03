@@ -3,7 +3,7 @@ const { readFileSync } = require('fs');
 
 const { expect } = require('chai');
 
-const replacePostmanVariables = require('../lib/var-replacer');
+const replacePostmanVariables = require('../src/var-replacer');
 
 describe('replacePostmanVariables specs', function () {
   const VARIABLES_COLLECTION_V2 = readFileSync('./test/resources/input/v2/Variables.json', 'utf8');
