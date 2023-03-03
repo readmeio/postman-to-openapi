@@ -1,8 +1,7 @@
 /* eslint-disable mocha/no-setup-in-describe */
-const { equal } = require('assert').strict;
 const { readFileSync } = require('fs');
 
-const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
 const replacePostmanVariables = require('../lib/var-replacer');
 
@@ -19,12 +18,12 @@ describe('replacePostmanVariables specs', function () {
 
   it('should replace all variables successfully v2', function () {
     const output = replacePostmanVariables(VARIABLES_COLLECTION_V2);
-    equal(output, RESULT_V2);
+    expect(output).to.equal(RESULT_V2);
   });
 
   it('should replace all variables successfully v2.1', function () {
     const output = replacePostmanVariables(VARIABLES_COLLECTION_V21);
-    equal(output, RESULT_V21);
+    expect(output).to.equal(RESULT_V21);
   });
 
   it('should use additional vars', function () {
@@ -32,7 +31,7 @@ describe('replacePostmanVariables specs', function () {
       company: 'myCompany',
       service: 'myService',
     });
-    equal(output, RESULT_ADDITIONAL_V2);
+    expect(output).to.equal(RESULT_ADDITIONAL_V2);
   });
 
   it('should use additional vars v2.1', function () {
@@ -40,6 +39,6 @@ describe('replacePostmanVariables specs', function () {
       company: 'myCompany',
       service: 'myService',
     });
-    equal(output, RESULT_ADDITIONAL_V21);
+    expect(output).to.equal(RESULT_ADDITIONAL_V21);
   });
 });

@@ -1,4 +1,3 @@
-const { equal, ok, rejects } = require('assert').strict;
 const {
   existsSync,
   promises: { readFile },
@@ -7,7 +6,7 @@ const {
 } = require('fs');
 const path = require('path');
 
-const { describe, it, afterEach } = require('mocha');
+const { expect } = require('chai');
 
 const postmanToOpenApi = require('../lib');
 
@@ -141,8 +140,8 @@ describe('Library specs', function () {
 
       it('should work with a basic transform', async function () {
         const result = await postmanToOpenApi(COLLECTION_BASIC, OUTPUT_PATH, {});
-        equal(result, EXPECTED_BASIC);
-        ok(existsSync(OUTPUT_PATH));
+        expect(result).to.equal(EXPECTED_BASIC);
+        expect(existsSync(OUTPUT_PATH)).to.be.true;
       });
 
       it('should work when no save', async function () {
@@ -158,52 +157,52 @@ describe('Library specs', function () {
             termsOfService: 'http://tos.myweb.com',
           },
         });
-        equal(result, EXPECTED_INFO_OPTS);
+        expect(result).to.equal(EXPECTED_INFO_OPTS);
       });
 
       it('should use "defaultTag" provided by config', async function () {
         const result = await postmanToOpenApi(COLLECTION_SIMPLE, OUTPUT_PATH, { defaultTag: 'Custom Tag' });
-        equal(result, EXPECTED_CUSTOM_TAG);
+        expect(result).to.equal(EXPECTED_CUSTOM_TAG);
       });
 
       it('should use default version if not informed and not in postman variables', async function () {
         const result = await postmanToOpenApi(COLLECTION_NO_VERSION, OUTPUT_PATH, {});
-        equal(result, EXPECTED_NO_VERSION);
+        expect(result).to.equal(EXPECTED_NO_VERSION);
       });
 
       it('should work with folders and use as tags', async function () {
         const result = await postmanToOpenApi(COLLECTION_FOLDERS, OUTPUT_PATH);
-        equal(result, EXPECTED_FOLDERS);
+        expect(result).to.equal(EXPECTED_FOLDERS);
       });
 
       it('should use "folders.separator" options for customize tags separators ', async function () {
         const result = await postmanToOpenApi(COLLECTION_FOLDERS, OUTPUT_PATH, { folders: { separator: '-' } });
-        equal(result, EXPECTED_FOLDERS_SEPARATOR);
+        expect(result).to.equal(EXPECTED_FOLDERS_SEPARATOR);
       });
 
       it('should use "folders.concat" options for not concatenate folder names as tags ', async function () {
         const result = await postmanToOpenApi(COLLECTION_FOLDERS, OUTPUT_PATH, { folders: { concat: false } });
-        equal(result, EXPECTED_FOLDERS_NO_CONCAT);
+        expect(result).to.equal(EXPECTED_FOLDERS_NO_CONCAT);
       });
 
       it('should parse GET methods with query string', async function () {
         const result = await postmanToOpenApi(COLLECTION_GET, OUTPUT_PATH);
-        equal(result, EXPECTED_GET_METHODS);
+        expect(result).to.equal(EXPECTED_GET_METHODS);
       });
 
       it('should parse HEADERS parameters', async function () {
         const result = await postmanToOpenApi(COLLECTION_HEADERS, OUTPUT_PATH);
-        equal(result, EXPECTED_HEADERS);
+        expect(result).to.equal(EXPECTED_HEADERS);
       });
 
       it('should parse path params', async function () {
         const result = await postmanToOpenApi(COLLECTION_PATH_PARAMS, OUTPUT_PATH);
-        equal(result, EXPECTED_PATH_PARAMS);
+        expect(result).to.equal(EXPECTED_PATH_PARAMS);
       });
 
       it('should parse servers from existing host in postman collection', async function () {
         const result = await postmanToOpenApi(COLLECTION_MULTIPLE_SERVERS, OUTPUT_PATH);
-        equal(result, EXPECTED_MULTIPLE_SERVERS);
+        expect(result).to.equal(EXPECTED_MULTIPLE_SERVERS);
       });
 
       it('should use servers from options', async function () {
@@ -219,17 +218,18 @@ describe('Library specs', function () {
             },
           ],
         });
-        equal(result, EXPECTED_SERVERS_OPTIONS);
+
+        expect(result).to.equal(EXPECTED_SERVERS_OPTIONS);
       });
 
       it('should allow empty servers from options', async function () {
         const result = await postmanToOpenApi(COLLECTION_MULTIPLE_SERVERS, OUTPUT_PATH, { servers: [] });
-        equal(result, EXPECTED_NO_SERVERS);
+        expect(result).to.equal(EXPECTED_NO_SERVERS);
       });
 
       it('should parse license and contact from variables', async function () {
         const result = await postmanToOpenApi(COLLECTION_LICENSE_CONTACT, OUTPUT_PATH);
-        equal(result, EXPECTED_LICENSE_CONTACT);
+        expect(result).to.equal(EXPECTED_LICENSE_CONTACT);
       });
 
       it('should use "additional info" from options', async function () {
@@ -246,7 +246,7 @@ describe('Library specs', function () {
             },
           },
         });
-        equal(result, EXPECTED_LICENSE_CONTACT_OPT);
+        expect(result).to.equal(EXPECTED_LICENSE_CONTACT_OPT);
       });
 
       it('should support optional params in license and contact options', async function () {
@@ -260,7 +260,8 @@ describe('Library specs', function () {
             },
           },
         });
-        equal(result, EXPECTED_LICENSE_CONTACT_PARTIAL);
+
+        expect(result).to.equal(EXPECTED_LICENSE_CONTACT_PARTIAL);
       });
 
       it('should support optional params in license and contact options (2)', async function () {
@@ -274,7 +275,8 @@ describe('Library specs', function () {
             },
           },
         });
-        equal(result, EXPECTED_LICENSE_CONTACT_PARTIAL_2);
+
+        expect(result).to.equal(EXPECTED_LICENSE_CONTACT_PARTIAL_2);
       });
 
       it('should not fail if license and/or contact are empty', async function () {
@@ -284,59 +286,61 @@ describe('Library specs', function () {
             contact: {},
           },
         });
-        equal(result, EXPECTED_BASIC);
+
+        expect(result).to.equal(EXPECTED_BASIC);
       });
 
       it('should not fail if auth is empty object', async function () {
         const result = await postmanToOpenApi(COLLECTION_BASIC, OUTPUT_PATH, {
           auth: {},
         });
-        equal(result, EXPECTED_BASIC);
+
+        expect(result).to.equal(EXPECTED_BASIC);
       });
 
       it('should use depth configuration for parse paths', async function () {
         const result = await postmanToOpenApi(COLLECTION_DEPTH_PATH_PARAMS, OUTPUT_PATH, { pathDepth: 1 });
-        equal(result, EXPECTED_DEPTH_PATH_PARAMS);
+        expect(result).to.equal(EXPECTED_DEPTH_PATH_PARAMS);
       });
 
       it('should parse status codes from test', async function () {
         const result = await postmanToOpenApi(COLLECTION_PARSE_STATUS_CODE);
-        equal(result, EXPECTED_PARSE_STATUS_CODE);
+        expect(result).to.equal(EXPECTED_PARSE_STATUS_CODE);
       });
 
       it('should parse operation when no path (only domain)', async function () {
         const result = await postmanToOpenApi(COLLECTION_NO_PATH);
-        equal(result, EXPECTED_NO_PATH);
+        expect(result).to.equal(EXPECTED_NO_PATH);
       });
 
       it('should support "DELETE" operations', async function () {
         const result = await postmanToOpenApi(COLLECTION_DELETE);
-        equal(result, EXPECTED_DELETE);
+        expect(result).to.equal(EXPECTED_DELETE);
       });
 
       it('should parse global authorization (Bearer)', async function () {
         const result = await postmanToOpenApi(COLLECTION_AUTH_BEARER, OUTPUT_PATH);
-        equal(result, EXPECTED_AUTH_BEARER);
+        expect(result).to.equal(EXPECTED_AUTH_BEARER);
       });
 
       it('should parse global authorization (Basic)', async function () {
         const result = await postmanToOpenApi(COLLECTION_AUTH_BASIC, OUTPUT_PATH);
-        equal(result, EXPECTED_AUTH_BASIC);
+        expect(result).to.equal(EXPECTED_AUTH_BASIC);
       });
 
       it('should use global authorization by configuration', async function () {
         const result = await postmanToOpenApi(COLLECTION_BASIC, OUTPUT_PATH, { auth: AUTH_DEFINITIONS });
-        equal(result, EXPECTED_BASIC_WITH_AUTH);
+        expect(result).to.equal(EXPECTED_BASIC_WITH_AUTH);
       });
 
       it('should parse url with port', async function () {
         const result = await postmanToOpenApi(COLLECTION_URL_WITH_PORT, OUTPUT_PATH);
-        equal(result, EXPECTED_URL_WITH_PORT);
+        expect(result).to.equal(EXPECTED_URL_WITH_PORT);
       });
 
       it('should parse external docs info from variables', async function () {
         const result = await postmanToOpenApi(COLLECTION_EXTERNAL_DOCS, OUTPUT_PATH);
-        equal(result, EXPECTED_EXTERNAL_DOCS);
+        expect(result).to.equal(EXPECTED_EXTERNAL_DOCS);
       });
 
       it('should parse external docs info from variables (with externalDocs url + description)', async function () {
@@ -346,7 +350,7 @@ describe('Library specs', function () {
             description: 'Find more info here or there',
           },
         });
-        equal(result, EXPECTED_EXTERNAL_DOCS_OPTS);
+        expect(result).to.equal(EXPECTED_EXTERNAL_DOCS_OPTS);
       });
 
       it('should parse external docs info from variables (with externalDocs url)', async function () {
@@ -355,12 +359,12 @@ describe('Library specs', function () {
             url: 'https://docs2.example.com',
           },
         });
-        equal(result, EXPECTED_EXTERNAL_DOCS_OPTS_PARTIAL);
+        expect(result).to.equal(EXPECTED_EXTERNAL_DOCS_OPTS_PARTIAL);
       });
 
       it('should not transform empty url request', async function () {
         const result = await postmanToOpenApi(COLLECTION_EMPTY_URL, OUTPUT_PATH);
-        equal(result, EXPECTED_EMPTY_URL);
+        expect(result).to.equal(EXPECTED_EMPTY_URL);
       });
 
       it('should accept "x-logo" extension by option', async function () {
@@ -373,7 +377,7 @@ describe('Library specs', function () {
             },
           },
         });
-        equal(result, EXPECTED_X_LOGO);
+        expect(result).to.equal(EXPECTED_X_LOGO);
       });
 
       it('should use only "x-logo" standard fields', async function () {
@@ -387,37 +391,37 @@ describe('Library specs', function () {
             },
           },
         });
-        equal(result, EXPECTED_X_LOGO);
+        expect(result).to.equal(EXPECTED_X_LOGO);
       });
 
       it('should use "x-logo" from variables', async function () {
         const result = await postmanToOpenApi(COLLECTION_XLOGO, OUTPUT_PATH, {});
-        equal(result, EXPECTED_X_LOGO_VAR);
+        expect(result).to.equal(EXPECTED_X_LOGO_VAR);
       });
 
       it('should support auth definition at request level', async function () {
         const result = await postmanToOpenApi(COLLECTION_MULTI_AUTH, OUTPUT_PATH, {});
-        equal(result, EXPECTED_AUTH_MULTIPLE);
+        expect(result).to.equal(EXPECTED_AUTH_MULTIPLE);
       });
 
       it('should ignore operational auth when auth options are provided', async function () {
         const result = await postmanToOpenApi(COLLECTION_MULTI_AUTH, OUTPUT_PATH, { auth: AUTH_DEFINITIONS });
-        equal(result, EXPECTED_AUTH_OPTIONS);
+        expect(result).to.equal(EXPECTED_AUTH_OPTIONS);
       });
 
       it('should add responses from postman examples', async function () {
         const result = await postmanToOpenApi(COLLECTION_RESPONSES, OUTPUT_PATH, { pathDepth: 2 });
-        equal(result, EXPECTED_RESPONSES);
+        expect(result).to.equal(EXPECTED_RESPONSES);
       });
 
       it('should add responses from multiple format for the same status code (text and json)', async function () {
         const result = await postmanToOpenApi(COLLECTION_RESPONSES_MULTI_LANG, OUTPUT_PATH, { pathDepth: 2 });
-        equal(result, EXPECTED_RESPONSES_MULTI_LANG);
+        expect(result).to.equal(EXPECTED_RESPONSES_MULTI_LANG);
       });
 
       it('should work if auth only defined at request level', async function () {
         const result = await postmanToOpenApi(COLLECTION_AUTH_REQUEST, OUTPUT_PATH, {});
-        equal(result, EXPECTED_AUTH_REQUEST);
+        expect(result).to.equal(EXPECTED_AUTH_REQUEST);
       });
 
       it('should avoid headers in response', async function () {
@@ -425,22 +429,22 @@ describe('Library specs', function () {
           pathDepth: 2,
           responseHeaders: false,
         });
-        equal(result, EXPECTED_RESPONSES_NO_HEADERS);
+        expect(result).to.equal(EXPECTED_RESPONSES_NO_HEADERS);
       });
 
       it('should parse POST methods with form data', async function () {
         const result = await postmanToOpenApi(COLLECTION_FORM_DATA, OUTPUT_PATH, {});
-        equal(result, EXPECTED_FORM_DATA);
+        expect(result).to.equal(EXPECTED_FORM_DATA);
       });
 
       it('should parse POST methods with www form urlencoded', async function () {
         const result = await postmanToOpenApi(COLLECTION_FORM_URLENCODED, OUTPUT_PATH, {});
-        equal(result, EXPECTED_FORM_URLENCODED);
+        expect(result).to.equal(EXPECTED_FORM_URLENCODED);
       });
 
       it('should replace postman variables if feature activated', async function () {
         const result = await postmanToOpenApi(COLLECTION_VARIABLES, OUTPUT_PATH, { replaceVars: true });
-        equal(result, EXPECTED_VARIABLES);
+        expect(result).to.equal(EXPECTED_VARIABLES);
       });
 
       it('should use additional variables for replace', async function () {
@@ -451,12 +455,12 @@ describe('Library specs', function () {
             service: 'myService',
           },
         });
-        equal(result, EXPECTED_VARIABLES_ADDITIONAL);
+        expect(result).to.equal(EXPECTED_VARIABLES_ADDITIONAL);
       });
 
       it('should not fail if no variable are defined and want to replace', async function () {
         const result = await postmanToOpenApi(COLLECTION_FORM_DATA, OUTPUT_PATH, { replaceVars: true });
-        equal(result, EXPECTED_FORM_DATA);
+        expect(result).to.equal(EXPECTED_FORM_DATA);
       });
 
       it('should not fail if url has a base path but is not replaced', async function () {
@@ -472,44 +476,47 @@ describe('Library specs', function () {
             },
           ],
         });
-        equal(result, EXPECTED_BASEPATH_VAR);
+        expect(result).to.equal(EXPECTED_BASEPATH_VAR);
       });
 
       it('should try to parse raw body as json but fallback to text', async function () {
         const result = await postmanToOpenApi(COLLECTION_RAW_BODY, OUTPUT_PATH, {});
-        equal(result, EXPECTED_RAW_BODY);
+        expect(result).to.equal(EXPECTED_RAW_BODY);
       });
 
       it('should work with collection wrapper attribute', async function () {
         const result = await postmanToOpenApi(COLLECTION_COLLECTION_WRAPPER, OUTPUT_PATH, {});
-        equal(result, EXPECTED_COLLECTION_WRAPPER);
+        expect(result).to.equal(EXPECTED_COLLECTION_WRAPPER);
       });
 
       it('should return friendly error message when a response sample body has an error in JSON', async function () {
-        await rejects(postmanToOpenApi(COLLECTION_RESPONSES_JSON_ERROR, OUTPUT_PATH, {}), {
-          name: 'Error',
-          message: 'Error parsing response example "Create new User automatic id"',
-        });
+        await postmanToOpenApi(COLLECTION_RESPONSES_JSON_ERROR, OUTPUT_PATH, {})
+          .then(() => {
+            throw new Error('Should not have reached here.');
+          })
+          .catch(err => {
+            expect(err.message).to.equal('Error parsing response example "Create new User automatic id"');
+          });
       });
 
       it('should not fail if response body is json but empty', async function () {
         const result = await postmanToOpenApi(COLLECTION_RESPONSES_EMPTY, OUTPUT_PATH, { pathDepth: 2 });
-        equal(result, EXPECTED_EMPTY_RESPONSES);
+        expect(result).to.equal(EXPECTED_EMPTY_RESPONSES);
       });
 
       it('should not fail if request body and response body have json with comments', async function () {
         const result = await postmanToOpenApi(COLLECTION_JSON_COMMENTS, OUTPUT_PATH, { pathDepth: 2 });
-        equal(result, EXPECTED_COLLECTION_JSON_COMMENTS);
+        expect(result).to.equal(EXPECTED_COLLECTION_JSON_COMMENTS);
       });
 
       it('should return "json" format is requested', async function () {
         const result = await postmanToOpenApi(COLLECTION_BASIC, OUTPUT_PATH, { outputFormat: 'json' });
-        equal(result, EXPECTED_BASIC_JSON);
+        expect(result).to.equal(EXPECTED_BASIC_JSON);
       });
 
       it('should not parse `disabled` parameters', async function () {
         const result = await postmanToOpenApi(COLLECTION_DISABLED, OUTPUT_PATH);
-        equal(result, EXPECTED_DISABLED_PARAMS_DEFAULT);
+        expect(result).to.equal(EXPECTED_DISABLED_PARAMS_DEFAULT);
       });
 
       it('should parse `disabled` parameters if option is used', async function () {
@@ -519,7 +526,7 @@ describe('Library specs', function () {
             includeHeader: true,
           },
         });
-        equal(result, EXPECTED_DISABLED_PARAMS_ALL);
+        expect(result).to.equal(EXPECTED_DISABLED_PARAMS_ALL);
       });
 
       it('should include `disable` query but not header', async function () {
@@ -528,7 +535,7 @@ describe('Library specs', function () {
             includeQuery: true,
           },
         });
-        equal(result, EXPECTED_DISABLED_PARAMS_QUERY);
+        expect(result).to.equal(EXPECTED_DISABLED_PARAMS_QUERY);
       });
 
       it('should include `disable` headers but not query', async function () {
@@ -537,53 +544,44 @@ describe('Library specs', function () {
             includeHeader: true,
           },
         });
-        equal(result, EXPECTED_DISABLED_PARAMS_HEADER);
+        expect(result).to.equal(EXPECTED_DISABLED_PARAMS_HEADER);
       });
 
       it('should not add `operationId` by default', async function () {
         const result = await postmanToOpenApi(COLLECTION_OPERATION_IDS, OUTPUT_PATH);
-        equal(result, EXPECTED_OPERATIONS_IDS);
+        expect(result).to.equal(EXPECTED_OPERATIONS_IDS);
       });
 
       it('should include `operationId` when `auto` is selected', async function () {
         const result = await postmanToOpenApi(COLLECTION_OPERATION_IDS, OUTPUT_PATH, { operationId: 'auto' });
-        equal(result, EXPECTED_OPERATIONS_IDS_AUTO);
+        expect(result).to.equal(EXPECTED_OPERATIONS_IDS_AUTO);
       });
 
       it('should include `operationId` when `brackets` is selected', async function () {
         const result = await postmanToOpenApi(COLLECTION_OPERATION_IDS, OUTPUT_PATH, { operationId: 'brackets' });
-        equal(result, EXPECTED_OPERATIONS_IDS_BRACKETS);
+        expect(result).to.equal(EXPECTED_OPERATIONS_IDS_BRACKETS);
       });
 
       it('should not add `operationId` if option is unknown', async function () {
         const result = await postmanToOpenApi(COLLECTION_OPERATION_IDS, OUTPUT_PATH, { operationId: 'banana' });
-        equal(result, EXPECTED_OPERATIONS_IDS);
+        expect(result).to.equal(EXPECTED_OPERATIONS_IDS);
       });
     });
   });
 
   it('should work if no options in request body', async function () {
     const result = await postmanToOpenApi(COLLECTION_NO_OPTIONS, OUTPUT_PATH, {});
-    equal(result, EXPECTED_BASIC_NO_OPTS);
+    expect(result).to.equal(EXPECTED_BASIC_NO_OPTS);
   });
 
   it('should work if header is equals to "null" in response', async function () {
     const result = await postmanToOpenApi(COLLECTION_NULL_HEADERS, OUTPUT_PATH, {});
-    equal(result, EXPECTED_NULL_HEADER);
+    expect(result).to.equal(EXPECTED_NULL_HEADER);
   });
 
   it('should work with string as input (instead of a file path)', async function () {
     const collectionString = await readFile(COLLECTION_NO_OPTIONS, 'utf8');
     const result = await postmanToOpenApi(collectionString, OUTPUT_PATH, {});
-    equal(result, EXPECTED_BASIC_NO_OPTS);
+    expect(result).to.equal(EXPECTED_BASIC_NO_OPTS);
   });
-
-  /* we keep this because im using all the time to resolve issues
-  it('issue233', async function () {
-    const collectionString = await readFile('./test/resources/input/issue233.json', 'utf8')
-    const result = await postmanToOpenApi(collectionString, OUTPUT_PATH, {})
-    console.log(result)
-    // equal(result, EXPECTED_BASIC_NO_OPTS)
-  })
-  */
 });

@@ -1,6 +1,4 @@
-const { deepEqual } = require('assert').strict;
-
-const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
 const { parseMdTable } = require('../lib/md-utils');
 
@@ -66,35 +64,35 @@ describe('MD table to JSON specs', function () {
 
   it('should return a json object with parsed md table', function () {
     const parsed = parseMdTable(MD_WITH_ADDITIONS);
-    deepEqual(parsed, PARSED_TABLE);
+    expect(parsed).to.deep.equal(PARSED_TABLE);
   });
 
   it('should return empty if not a markdown string', function () {
-    deepEqual(parseMdTable(''), {});
+    expect(parseMdTable('')).to.deep.equal({});
   });
 
   it('should return empty if not a table in the markdown', function () {
-    deepEqual(parseMdTable('# headers'), {});
+    expect(parseMdTable('# headers')).to.deep.equal({});
   });
 
   it('should not parse not allowed headers', function () {
-    deepEqual(parseMdTable(MD_ADDITIONAL_HEADER), PARSED_TABLE);
+    expect(parseMdTable(MD_ADDITIONAL_HEADER)).to.deep.equal(PARSED_TABLE);
   });
 
   it('should return empty if no "name" column', function () {
-    deepEqual(parseMdTable(MD_NO_NAME), {});
+    expect(parseMdTable(MD_NO_NAME)).to.deep.equal({});
   });
 
   it('should return empty if no "object" column', function () {
-    deepEqual(parseMdTable(MD_NO_OBJECT), {});
+    expect(parseMdTable(MD_NO_OBJECT)).to.deep.equal({});
   });
 
   it('should not fail if column as "required" not exist in md table', function () {
     const parsed = parseMdTable(MD_MISS_COLUMN);
-    deepEqual(parsed, PARSED_NO_REQUIRED_TABLE);
+    expect(parsed).to.deep.equal(PARSED_NO_REQUIRED_TABLE);
   });
 
   it('should return empty if incorrect md table', function () {
-    deepEqual(parseMdTable(MD_INCORRECT), {});
+    expect(parseMdTable(MD_INCORRECT)).to.deep.equal({});
   });
 });
