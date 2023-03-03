@@ -55,6 +55,10 @@ const EXPECTED_EMPTY_RESPONSES = readFileSync('./test/resources/output/Responses
 const EXPECTED_RESPONSES_MULTI_LANG = readFileSync('./test/resources/output/ResponsesMultiLang.yml', 'utf8');
 const EXPECTED_AUTH_REQUEST = readFileSync('./test/resources/output/AuthRequest.yml', 'utf8');
 const EXPECTED_RESPONSES_NO_HEADERS = readFileSync('./test/resources/output/ResponsesNoHeaders.yml', 'utf8');
+const EXPECTED_RESPONSES_WITHOUT_STATUS_CODE = readFileSync(
+  './test/resources/output/ResponsesWithoutHTTPStatusCode.yml',
+  'utf8'
+);
 const EXPECTED_FORM_DATA = readFileSync('./test/resources/output/FormData.yml', 'utf8');
 const EXPECTED_FORM_URLENCODED = readFileSync('./test/resources/output/FormUrlencoded.yml', 'utf8');
 const EXPECTED_VARIABLES = readFileSync('./test/resources/output/Variables.yml', 'utf8');
@@ -137,6 +141,7 @@ describe('Library specs', function () {
       const COLLECTION_JSON_COMMENTS = `./test/resources/input/${version}/JsonComments.json`;
       const COLLECTION_DISABLED = `./test/resources/input/${version}/DisabledParams.json`;
       const COLLECTION_OPERATION_IDS = `./test/resources/input/${version}/OperationIds.json`;
+      const COLLECTION_RESPONSES_WITHOUT_STATUS_CODE = `./test/resources/input/${version}/ResponsesWithoutHTTPStatusCode.json`;
 
       it('should work with a basic transform', async function () {
         const result = await postmanToOpenAPI(COLLECTION_BASIC, OUTPUT_PATH, {});
@@ -422,6 +427,11 @@ describe('Library specs', function () {
       it('should work if auth only defined at request level', async function () {
         const result = await postmanToOpenAPI(COLLECTION_AUTH_REQUEST, OUTPUT_PATH, {});
         expect(result).to.equal(EXPECTED_AUTH_REQUEST);
+      });
+
+      it('should add responses from postman examples even if they are missing an HTTP Status Code', async function () {
+        const result = await postmanToOpenAPI(COLLECTION_RESPONSES_WITHOUT_STATUS_CODE, OUTPUT_PATH, { pathDepth: 2 });
+        expect(result).to.equal(EXPECTED_RESPONSES_WITHOUT_STATUS_CODE);
       });
 
       it('should avoid headers in response', async function () {
