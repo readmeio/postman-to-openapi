@@ -1,3 +1,9 @@
+## 4.0.0 (2023-03-03)
+
+* chore: prepping our fork to be released under our org ([51bfb90](https://github.com/readmeio/postman-to-openapi/commit/51bfb90))
+* fix: missing `code` would result in an `undefined` response status (#2) ([3068bd0](https://github.com/readmeio/postman-to-openapi/commit/3068bd0)), closes [#2](https://github.com/readmeio/postman-to-openapi/issues/2)
+
+
 ### [3.0.1](https://github.com/joolfe/postman-to-openapi/compare/3.0.0...3.0.1) (2023-01-21)
 
 
