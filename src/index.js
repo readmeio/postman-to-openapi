@@ -8,6 +8,7 @@ const {
   promises: { writeFile, readFile },
 } = require('fs');
 
+const { getStatusCodeMessage } = require('@readme/http-status-codes');
 const { dump } = require('js-yaml');
 const jsonc = require('jsonc-parser');
 const camelCase = require('lodash.camelcase');
@@ -550,6 +551,16 @@ function parseResponseFromExamples(responses, responseHeaders) {
     (statusMap, { name, code, status: description, header, body, _postman_previewlanguage: language }) => {
       if (code === undefined) {
         code = 'default';
+      }
+
+      // The OpenAPI spec requires that `description` be present on responses with content so
+      // we'll make it match the message that cooresponds to the HTTP status code.
+      if (!description) {
+        try {
+          description = getStatusCodeMessage({ code });
+        } catch (err) {
+          description = code;
+        }
       }
 
       if (code in statusMap) {

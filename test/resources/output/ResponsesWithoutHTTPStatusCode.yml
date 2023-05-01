@@ -24,6 +24,7 @@ paths:
                 avatar: https://cdn.fakercloud.com/avatars/nelsonjoyce_128.jpg
       responses:
         default:
+          description: default
           headers:
             Server:
               schema:
