@@ -1,6 +1,6 @@
 {
   "name": "@readme/postman-to-openapi",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Convert postman collection to OpenAPI spec",
   "license": "MIT",
   "main": "src/index.js",
@@ -33,8 +33,8 @@
     "lint:ts": "tsc --build types",
     "prepare": "husky install",
     "pretest": "npm run lint",
-    "test": "nyc mocha",
-    "release": "npx conventional-changelog-cli -i CHANGELOG.md -s && git add CHANGELOG.md"
+    "release": "npx conventional-changelog-cli -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "test": "nyc mocha"
   },
   "dependencies": {
     "@readme/http-status-codes": "^7.2.0",

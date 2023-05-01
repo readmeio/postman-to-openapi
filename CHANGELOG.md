@@ -1,3 +1,10 @@
+## 4.1.0 (2023-05-01)
+
+* fix: create a response description if one is missing (#3) ([b13f7e5](https://github.com/readmeio/postman-to-openapi/commit/b13f7e5)), closes [#3](https://github.com/readmeio/postman-to-openapi/issues/3)
+* chore(deps-dev): bumping out of date deps ([66f1f68](https://github.com/readmeio/postman-to-openapi/commit/66f1f68))
+
+
+
 ## 4.0.0 (2023-03-03)
 
 * chore: prepping our fork to be released under our org ([51bfb90](https://github.com/readmeio/postman-to-openapi/commit/51bfb90))
