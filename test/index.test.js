@@ -75,6 +75,10 @@ const EXPECTED_DISABLED_PARAMS_HEADER = readFileSync('./test/resources/output/Di
 const EXPECTED_OPERATIONS_IDS = readFileSync('./test/resources/output/OperationIds.yml', 'utf8');
 const EXPECTED_OPERATIONS_IDS_AUTO = readFileSync('./test/resources/output/OperationIdsAuto.yml', 'utf8');
 const EXPECTED_OPERATIONS_IDS_BRACKETS = readFileSync('./test/resources/output/OperationIdsBrackets.yml', 'utf8');
+const EXPECTED_WITH_BAD_FORMATTED_EXAMPLES = readFileSync(
+  './test/resources/output/WithBadFormattedExamples.yml',
+  'utf8'
+);
 
 const AUTH_DEFINITIONS = {
   myCustomAuth: {
@@ -499,14 +503,9 @@ describe('Library specs', function () {
         expect(result).to.equal(EXPECTED_COLLECTION_WRAPPER);
       });
 
-      it('should return friendly error message when a response sample body has an error in JSON', async function () {
-        await postmanToOpenAPI(COLLECTION_RESPONSES_JSON_ERROR, OUTPUT_PATH, {})
-          .then(() => {
-            throw new Error('Should not have reached here.');
-          })
-          .catch(err => {
-            expect(err.message).to.equal('Error parsing response example "Create new User automatic id"');
-          });
+      it('should ommit example when a response sample body has an error in JSON', async function () {
+        const result = await postmanToOpenAPI(COLLECTION_RESPONSES_JSON_ERROR, OUTPUT_PATH, {});
+        expect(result).to.equal(EXPECTED_WITH_BAD_FORMATTED_EXAMPLES);
       });
 
       it('should not fail if response body is json but empty', async function () {

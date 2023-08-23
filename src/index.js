@@ -617,19 +617,30 @@ function parseExamples(bodies, language) {
   if (Array.isArray(bodies) && bodies.length > 1) {
     return {
       examples: bodies.reduce((ex, { name: summary, body }, i) => {
-        ex[`example-${i}`] = {
-          summary,
-          value: safeSampleParse(body, summary, language),
-        };
+        try {
+          const exampleValue = safeSampleParse(body, summary, language);
+          ex[`example-${i}`] = {
+            summary,
+            value: exampleValue,
+          };
+        } catch (err) {
+          // If we can't parse the example, avoid this example
+        }
+
         return ex;
       }, {}),
     };
   }
 
   const { body, name } = bodies[0];
-  return {
-    example: safeSampleParse(body, name, language),
-  };
+  try {
+    return {
+      example: safeSampleParse(body, name, language),
+    };
+  } catch (err) {
+    // If we can't parse the example, avoid this example
+    return {};
+  }
 }
 
 function safeSampleParse(body, name, language) {

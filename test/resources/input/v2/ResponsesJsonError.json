@@ -93,7 +93,7 @@
 					"body": "{\n    \"id\": \"51\",\n    \"createdAt\": \"2021-06-04T15:50:38.568Z\",\n    \"name\": \"Carol\",\n    \"avatar\": \"https://cdn.fakercloud.com/avatars/nelsonjoyce_128.jpg\"\n}"
 				},
 				{
-					"name": "Create new User automatic id",
+					"name": "Invalid Example",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
