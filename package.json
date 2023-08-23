@@ -1,5 +1,5 @@
 {
-  "name": "@readme/postman-to-openapi",
+  "name": "@postman/postman-to-openapi",
   "version": "4.1.0",
   "description": "Convert postman collection to OpenAPI spec",
   "license": "MIT",

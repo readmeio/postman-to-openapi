@@ -1,0 +1,19 @@
+name: Release package
+on:
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: 'Release type (one of): patch, minor, major'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+jobs:
+  call-workflow-passing-data:
+    uses: postman-eng/publish-npm-package-action/.github/workflows/workflow.yml@main
+    with:
+      release-type: ${{ inputs.release-type }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
