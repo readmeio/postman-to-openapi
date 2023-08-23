@@ -559,7 +559,7 @@ function parseResponseFromExamples(responses, responseHeaders) {
         try {
           description = getStatusCodeMessage({ code });
         } catch (err) {
-          description = code;
+          description = code.toString();
         }
       }
 
