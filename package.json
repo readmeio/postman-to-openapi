@@ -31,10 +31,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint **/*.js --fix",
     "lint:ts": "tsc --build types",
-    "prepare": "husky install",
     "pretest": "npm run lint",
-    "release": "npx conventional-changelog-cli -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "test": "nyc mocha"
+    "prettier": "prettier --list-different --write \"./**/**.{js,ts}\"",
+    "test": "vitest run --coverage"
   },
   "dependencies": {
     "@readme/http-status-codes": "^7.2.0",
@@ -45,26 +44,13 @@
     "mustache": "^4.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^17.6.1",
-    "@readme/eslint-config": "^10.5.2",
-    "chai": "^4.3.7",
+    "@readme/eslint-config": "^14.8.1",
+    "@types/node": "^24.9.2",
+    "@vitest/coverage-v8": "^4.0.6",
     "eslint": "^8.39.0",
-    "husky": "^8.0.3",
-    "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.6"
   },
-  "prettier": "@readme/eslint-config/prettier",
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  }
+  "prettier": "@readme/eslint-config/prettier"
 }

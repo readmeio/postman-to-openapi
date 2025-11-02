@@ -1,19 +1,21 @@
-/* eslint-disable mocha/no-setup-in-describe */
-const { readFileSync } = require('fs');
+import fs from 'node:fs';
 
-const { expect } = require('chai');
+import { describe, it, expect } from 'vitest';
 
-const replacePostmanVariables = require('../src/var-replacer');
+import replacePostmanVariables from '../src/var-replacer';
 
 describe('replacePostmanVariables specs', function () {
-  const VARIABLES_COLLECTION_V2 = readFileSync('./test/resources/input/v2/Variables.json', 'utf8');
-  const VARIABLES_COLLECTION_V21 = readFileSync('./test/resources/input/v21/Variables.json', 'utf8');
-  const RESULT_V2 = readFileSync('./test/resources/var-replace/VariablesReplacedV2.json', 'utf8');
-  const RESULT_V21 = readFileSync('./test/resources/var-replace/VariablesReplacedV21.json', 'utf8');
-  const RESULT_ADDITIONAL_V2 = readFileSync('./test/resources/var-replace/VariablesReplacedV2additional.json', 'utf8');
-  const RESULT_ADDITIONAL_V21 = readFileSync(
+  const VARIABLES_COLLECTION_V2 = fs.readFileSync('./test/resources/input/v2/Variables.json', 'utf8');
+  const VARIABLES_COLLECTION_V21 = fs.readFileSync('./test/resources/input/v21/Variables.json', 'utf8');
+  const RESULT_V2 = fs.readFileSync('./test/resources/var-replace/VariablesReplacedV2.json', 'utf8');
+  const RESULT_V21 = fs.readFileSync('./test/resources/var-replace/VariablesReplacedV21.json', 'utf8');
+  const RESULT_ADDITIONAL_V2 = fs.readFileSync(
+    './test/resources/var-replace/VariablesReplacedV2additional.json',
+    'utf8',
+  );
+  const RESULT_ADDITIONAL_V21 = fs.readFileSync(
     './test/resources/var-replace/VariablesReplacedV21additional.json',
-    'utf8'
+    'utf8',
   );
 
   it('should replace all variables successfully v2', function () {

@@ -9,6 +9,7 @@ Mustache.Writer.prototype.escapedValue = function escapedValue(token, context) {
 };
 
 function replacePostmanVariables(collectionString, additionalVars = {}) {
+  // eslint-disable-next-line try-catch-failsafe/json-parse
   const postmanJson = JSON.parse(collectionString);
   const { variable = [] } = postmanJson;
   const formatVars = variable.reduce((obj, { key, value }) => {

@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable unicorn/no-unsafe-regex */
 /* eslint-disable default-param-last */
 /* eslint-disable default-case */
 /* eslint-disable no-underscore-dangle */
@@ -36,13 +35,14 @@ async function postmanToOpenAPI(
       includeHeader: false,
     },
     operationId = 'off',
-  } = {}
+  } = {},
 ) {
   // TODO validate?
   let collectionFile = await resolveInput(input);
   if (replaceVars) {
     collectionFile = replacePostmanVariables(collectionFile, additionalVars);
   }
+  // eslint-disable-next-line try-catch-failsafe/json-parse
   const _postmanJson = JSON.parse(collectionFile);
   const postmanJson = _postmanJson.collection || _postmanJson;
   const { item: items, variable = [] } = postmanJson;
@@ -293,7 +293,7 @@ function parseParameters(
   paramsMeta = {},
   pathVars,
   { includeQuery = false, includeHeader = false },
-  paramInserter = defaultParamInserter
+  paramInserter = defaultParamInserter,
 ) {
   // parse Headers
   const parameters = [...header.reduce(mapParameters('header', includeHeader, paramInserter), new Map()).values()];
@@ -577,7 +577,7 @@ function parseResponseFromExamples(responses, responseHeaders) {
       }
       return statusMap;
     },
-    {}
+    {},
   );
 
   // Parse for OpenAPI
